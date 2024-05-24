@@ -1,36 +1,81 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+ 
+name: Build and deploy PHP app to Azure Web App - InsuranceCalculatorTricentis
+ 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches:
+      - main
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+ 
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+# build:
+#   runs-on: ubuntu-latest
+#
+#   steps:
+#     - uses: actions/checkout@v2
+#
+#     - name: Setup PHP
+  #      uses: shivammathur/setup-php@v2
+#       with:
+#         php-version: '8.2'
+#
+#     - name: Check if composer.json exists
+#       id: check_files
+#       uses: andstor/file-existence-action@v1
+#       with:
+#         files: 'composer.json'
+#
+#     - name: Run composer install if composer.json exists
+#       if: steps.check_files.outputs.files_exists == 'true'
+#      run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
+#
+#     - name: Upload artifact for deployment job
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: php-app
+#         path: .
+ 
+# deploy:
+#   runs-on: ubuntu-latest
+#   needs: build
+#   environment:
+#     name: 'Production'
+#     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+#
+#   steps:
+#     - name: Download artifact from build job
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: php-app
+#
+#     - name: 'Deploy to Azure Web App'
+#       uses: azure/webapps-deploy@v2
+#       id: deploy-to-webapp
+#       with:
+#         app-name: 'InsuranceCalculatorTricentis'
+#         slot-name: 'Production'
+#         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1FDFE77948D34B9481D23ACCE87D8A65 }}
+#         package: .
+ 
+  test:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    #needs: deploy
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Run automated tests
+        run: C:\tosca_execution_client.ps1 -toscaServerUrl "https://prdtos01.qbsa.local/" -events '["Dex_Unattended_TBD"]' -projectName "QBCC_Workspace" -resultsFileName "results.xml" -clientId "jXLj3lL8E06U3PHM3B_EPQ" -clientSecret "aR0uqwBKdUiBhil4zVJMcApEUps6uGk0WAkcVS3ZX7Zg"
+ 
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: success() || failure()
+        with:
+          report_paths: 'C:\\Temp\\results\\results.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+GitHub - Azure/actions: Author and use Azure Actions to automate your GitHub workflows
+Author and use Azure Actions to automate your GitHub workflows - Azure/actions
