@@ -77,5 +77,3 @@ jobs:
         with:
           report_paths: 'C:\\Temp\\results\\results.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-GitHub - Azure/actions: Author and use Azure Actions to automate your GitHub workflows
-Author and use Azure Actions to automate your GitHub workflows - Azure/actions
