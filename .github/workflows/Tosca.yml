@@ -68,7 +68,7 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Run automated tests
-        run: C:\tosca_execution_client.ps1 -toscaServerUrl "https://prdtos01.qbsa.local/" -events '["Dex_Unattended_TBD"]' -projectName "QBCC_Workspace" -resultsFileName "results.xml" -clientId "jXLj3lL8E06U3PHM3B_EPQ" -clientSecret "aR0uqwBKdUiBhil4zVJMcApEUps6uGk0WAkcVS3ZX7Zg"
+        run: C:\tosca_execution_client.ps1 -toscaServerUrl "https://prdtos01.qbsa.local" -events '["Dex_Unattended_TBD"]' -projectName "QBCC_Workspace" -clientId "U0F3WbBvwEqlVQLtsYkpXA" -clientSecret "YsINSZwH8U6gkgLQZjjmnQVbw5bMhL9EaS8Na7PyjH6Q"
  
 
       - name: Publish Test Report
